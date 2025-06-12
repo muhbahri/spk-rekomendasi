@@ -1,4 +1,4 @@
-# 🇮🇩 Sistem Rekomendasi Negara Tujuan bagi Pekerja Migran Indonesia (PMI) 🌍
+# Sistem Rekomendasi Negara Tujuan bagi Pekerja Migran Indonesia (PMI) 🌍
 
 Sistem ini merupakan aplikasi berbasis web yang dirancang untuk memberikan rekomendasi negara tujuan terbaik bagi Pekerja Migran Indonesia (PMI). Menggunakan metode **MOORA (Multi-Objective Optimization on the Basis of Ratio Analysis)**, sistem ini membantu agen penyalur atau calon PMI dalam memilih negara berdasarkan berbagai kriteria seperti **gaji**, **biaya hidup**, **budaya**, **bahasa**, **keamanan**, dan **proses migrasi**.
 
