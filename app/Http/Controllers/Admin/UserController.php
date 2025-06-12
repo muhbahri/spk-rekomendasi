@@ -42,24 +42,20 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $name = Str::slug($request->name); // jadi lowercase tanpa spasi
-        $date = Carbon::now(); // ambil hari ini
+        $name = Str::slug($request->name);
+        $date = now();
+        $count = User::whereDate('created_at', $date->toDateString())->count() + 1;
+        $email = "{$name}" . str_pad($count, 2, '0', STR_PAD_LEFT) . $date->format('dmY') . "@pmi.id";
+        $password = "{$name}" . $date->format('dmY');
 
-        // Hitung urutan user ke berapa di hari ini
-        $countToday = User::whereDate('created_at', $date->toDateString())->count() + 1;
-
-        $urutan = str_pad($countToday, 2, '0', STR_PAD_LEFT); // → 01, 02, 03
-        $tanggal = $date->format('dmY'); // → 05062025
-        $email = "{$name}{$urutan}{$tanggal}@pmi.id";
-        $password = "{$name}{$urutan}{$tanggal}@pmi.id";
-
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $email,
             'password' => Hash::make($password),
             'role' => 'user',
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', "User berhasil dibuat. Email: {$email}, Password: {$password}");
+        return redirect()->route('admin.dashboard')->with('success', "User berhasil dibuat: {$email}");
     }
+
 }

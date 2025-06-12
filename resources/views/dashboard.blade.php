@@ -1,11 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Dashboard') }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
 
-    <div class="flex flex-col items-center justify-center py-16 min-h-[70vh] text-center font-[handwriting]">
+    <div class="flex flex-col items-center justify-center py-16 min-h-[70vh] text-center font-[Poppins]">
         <h1 class="text-2xl font-semibold leading-relaxed sm:text-3xl">
             Sistem Rekomendasi <br>
             Negara Tujuan <br>

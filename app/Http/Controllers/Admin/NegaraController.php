@@ -21,13 +21,8 @@ class NegaraController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required|string|unique:negaras,nama',
-        ]);
-
-        Negara::create([
-            'nama' => $request->nama,
-        ]);
+        $request->validate(['nama' => 'required|string|max:255']);
+        Negara::create(['nama' => $request->nama]);
 
         return redirect()->route('admin.negara.index')->with('success', 'Negara berhasil ditambahkan.');
     }
@@ -39,13 +34,8 @@ class NegaraController extends Controller
 
     public function update(Request $request, Negara $negara)
     {
-        $request->validate([
-            'nama' => 'required|string|unique:negaras,nama,' . $negara->id,
-        ]);
-
-        $negara->update([
-            'nama' => $request->nama,
-        ]);
+        $request->validate(['nama' => 'required|string|max:255']);
+        $negara->update(['nama' => $request->nama]);
 
         return redirect()->route('admin.negara.index')->with('success', 'Negara berhasil diperbarui.');
     }
