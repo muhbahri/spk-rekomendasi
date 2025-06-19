@@ -26,9 +26,12 @@ class KriteriaController extends Controller
             'is_benefit' => 'required|boolean',
         ]);
 
-        Kriteria::create($request->only('nama', 'is_benefit'));
+        $kriteria = Kriteria::create([
+            'nama' => $request->nama,
+            'is_benefit' => $request->is_benefit,
+        ]);
 
-        return redirect()->route('admin.kriteria.index')->with('success', 'Kriteria berhasil ditambahkan.');
+        return redirect()->route('admin.pertanyaan.create', ['kriteria_id' => $kriteria->id])->with('success', 'Kriteria berhasil ditambahkan.');
     }
 
     public function edit(Kriteria $kriteria)
@@ -36,21 +39,37 @@ class KriteriaController extends Controller
         return view('admin.kriteria.edit', compact('kriteria'));
     }
 
-    public function update(Request $request, Kriteria $kriteria)
+    public function update(Request $request, $id)
     {
+        $kriteria = Kriteria::find($id);
+
+        // if (!$kriteria) {
+        //     abort(404, 'Kriteria tidak ditemukan.');
+        // }
+
         $request->validate([
-            'nama' => 'required|string|unique:kriterias,nama,' . $kriteria->id,
+            'nama' => 'required|string|max:255',
             'is_benefit' => 'required|in:0,1',
         ]);
 
-        $kriteria->update($request->only('nama', 'is_benefit'));
+        $kriteria->update([
+            'nama' => $request->nama,
+            'is_benefit' => $request->is_benefit,
+        ]);
 
         return redirect()->route('admin.kriteria.index')->with('success', 'Kriteria berhasil diperbarui.');
     }
 
-    public function destroy(Kriteria $kriteria)
+
+
+    public function destroy($id)
     {
+        // \Log::debug("DESTROY DIPANGGIL untuk ID $id");
+
+        $kriteria = Kriteria::findOrFail($id);
         $kriteria->delete();
+
         return redirect()->route('admin.kriteria.index')->with('success', 'Kriteria berhasil dihapus.');
     }
+
 }

@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\BobotNegaraController;
 
 // Landing page
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -56,7 +56,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/admin/negara', [NegaraController::class, 'store'])->name('admin.negara.store');
 
     Route::resource('kriteria', KriteriaController::class)->except(['show']);
+    Route::put('/admin/kriteria/{kriteria}', [KriteriaController::class, 'update'])->name('admin.kriteria.update');
+    // Route::post('/admin/kriteria', [KriteriaController::class, 'store'])->name('admin.kriteria.store');
+
+    // Pertanyaan
+    Route::get('/pertanyaan/edit-kriteria/{kriteria}', [PertanyaanController::class, 'editByKriteria'])->name('pertanyaan.edit.kriteria');
+    Route::put('/pertanyaan/edit-kriteria/{kriteria}', [PertanyaanController::class, 'updateByKriteria'])->name('pertanyaan.update.kriteria');
     Route::resource('pertanyaan', PertanyaanController::class)->except(['show']);
+    Route::get('/admin/pertanyaan/urutan', function (Illuminate\Http\Request $request) {
+        $last = \App\Models\Pertanyaan::where('kriteria_id', $request->kriteria_id)->max('urutan');
+        return response()->json(['urutan' => ($last ? $last + 1 : 1)]);
+    })->middleware(['auth', 'admin']);
+
+    
 
     // Bobot Negara
     Route::get('bobot-negara', [BobotNegaraController::class, 'index'])->name('bobot-negara.index');

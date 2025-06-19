@@ -89,7 +89,26 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if(Auth::user() && Auth::user()->role === 'admin')
+                <x-responsive-nav-link :href="route('admin.negara.index')" :active="request()->routeIs('admin.negara.*')">
+                    {{ __('Negara') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.kriteria.index')" :active="request()->routeIs('admin.kriteria.*')">
+                    {{ __('Kriteria') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.pertanyaan.index')" :active="request()->routeIs('admin.pertanyaan.*')">
+                    {{ __('Pertanyaan') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.bobot-negara.index')" :active="request()->routeIs('admin.bobot-negara.*')">
+                    {{ __('Bobot Negara') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
+
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">

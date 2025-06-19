@@ -1,24 +1,4 @@
-@if(session('success'))
-    <div 
-        x-data="{ show: true }" 
-        x-init="setTimeout(() => show = false, 2000)" 
-        x-show="show"
-        x-transition
-        :class="{
-            'bg-green-100 text-green-800 border-green-300': !('{{ session('success') }}'.toLowerCase().includes('hapus')),
-            'bg-red-100 text-red-800 border-red-300': '{{ session('success') }}'.toLowerCase().includes('hapus')
-        }"
-        class="flex items-center gap-3 p-4 mb-6 border rounded-lg shadow-md"
-    >
-        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-             viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M5 13l4 4L19 7" />
-        </svg>
-        <span class="text-sm font-medium">{{ session('success') }}</span>
-    </div>
-@endif
-
+@section('title', 'Admin - Daftar Negara')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-bold text-gray-800">Daftar Negara</h2>
@@ -67,6 +47,7 @@
             x-show="showCreate" x-transition
             style="display: none"
             @keydown.escape.window="showCreate = false"
+            x-init="$watch('showCreate', value => value && $nextTick(() => $refs.nameInput.focus()))"
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
         >
             <div class="relative w-full max-w-md p-6 bg-white rounded shadow-md">
@@ -81,7 +62,9 @@
 
                     <div class="mb-4">
                         <label class="block text-sm font-medium">Nama Negara</label>
-                        <input type="text" name="nama" class="w-full px-3 py-2 border rounded" required>
+                        <input type="text" name="nama" id="nama" required
+                                        x-ref="nameInput"
+                                        class="w-full px-3 py-2 border rounded">
                     </div>
 
                     <button type="submit" class="w-full py-2 text-white bg-green-600 rounded hover:bg-green-700">
@@ -96,6 +79,7 @@
         <div
             x-show="showEdit" x-transition
             style="display: none"
+            x-init="$watch('showEdit', value => value && $nextTick(() => $refs.nameEdit.focus()))"
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
             @keydown.escape.window="showEdit = false"
         >
@@ -112,7 +96,7 @@
 
                     <div class="mb-4">
                         <label class="block text-sm font-medium">Nama Negara</label>
-                        <input type="text" name="nama" x-model="editNama" class="w-full px-3 py-2 border rounded" required>
+                        <input type="text" name="nama" x-model="editNama" x-ref="nameEdit" class="w-full px-3 py-2 border rounded" required>
                     </div>
 
                     <button type="submit" class="w-full py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
@@ -124,3 +108,26 @@
 
     </div>
 </x-app-layout>
+
+@if(session('success'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 2000)" 
+        x-show="show"
+        x-transition
+        :class="{
+            'fixed inset-x-0 top-0 z-50 flex px-4 py-3 shadow-md border-b bg-green-100 text-green-800 border-green-300': !('{{ session('success') }}'.toLowerCase().includes('hapus')),
+            'fixed inset-x-0 top-0 z-50 flex px-4 py-3 shadow-md border-b bg-red-100 text-red-800 border-red-300': '{{ session('success') }}'.toLowerCase().includes('hapus')
+        }"
+    >
+        <div class="flex items-center w-full max-w-3xl gap-3">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-sm font-medium">{{ session('success') }}</span>
+        </div>
+    </div>
+@endif
+

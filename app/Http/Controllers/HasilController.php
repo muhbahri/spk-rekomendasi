@@ -78,6 +78,17 @@ class HasilController extends Controller
 
         // 4. Urutkan dan kirim ke view
         arsort($scores);
-        return view('hasil.index', compact('scores'));
+        $topCountry = array_key_first($scores);
+        $alternatifCountries = array_slice($scores, 1, 4, true);
+
+        // dd([
+        //     'userScores' => $userScores,
+        //     'matrix' => $matrix,
+        //     'sumSquares' => $sumSquares,
+        //     'scores' => $scores,
+        // ]);
+        return view('hasil.index', compact('scores', 'topCountry', 'alternatifCountries'));
+        
+
     }
 }

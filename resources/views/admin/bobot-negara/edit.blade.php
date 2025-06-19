@@ -42,3 +42,23 @@
         </form>
     </div>
 </x-app-layout>
+
+@if(session('success'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 2000)" 
+        x-show="show"
+        x-transition
+        class="fixed inset-x-0 top-0 z-50 flex px-4 py-3 text-green-800 bg-green-100 border-b border-green-300 shadow-md"
+    >
+        <div class="flex items-center w-full max-w-3xl gap-3">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-sm font-medium">{{ session('success') }}</span>
+        </div>
+    </div>
+@endif
+

@@ -1,6 +1,7 @@
+@section('title', 'Admin - Daftar Bobot Negara')
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-bold text-gray-800">Atur Bobot Negara (MOORA Matrix)</h2>
+        <h2 class="text-xl font-bold text-gray-800">Bobot Negara</h2>
     </x-slot>
 
     <div class="p-4">

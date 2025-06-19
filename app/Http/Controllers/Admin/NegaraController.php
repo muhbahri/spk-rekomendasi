@@ -22,9 +22,10 @@ class NegaraController extends Controller
     public function store(Request $request)
     {
         $request->validate(['nama' => 'required|string|max:255']);
-        Negara::create(['nama' => $request->nama]);
+        $negara = Negara::create(['nama' => $request->nama]);
 
-        return redirect()->route('admin.negara.index')->with('success', 'Negara berhasil ditambahkan.');
+        return redirect()->route('admin.bobot-negara.edit', $negara->id)
+        ->with('success', 'Negara berhasil ditambahkan. Silakan isi bobot kriterianya.');
     }
 
     public function edit(Negara $negara)

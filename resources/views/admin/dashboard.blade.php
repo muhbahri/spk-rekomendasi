@@ -1,3 +1,4 @@
+@section('title', 'Admin - Dashboard')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-bold text-gray-800">
@@ -32,13 +33,15 @@
                     class="w-64 px-3 border rounded">
                     <button class="px-4 text-white bg-blue-600 rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"">Cari</button>
                 </form>
-                <div x-data="{ showModal: false }"  @keydown.escape.window="showModal = false">
+                <div x-data="{ showModal: false }">
                     <button @click="showModal = true"
                         class="inline-block px-4 py-2 mb-4 text-white bg-green-600 rounded hover:bg-green-700">
                         ➕ Tambah Calon PMI Baru
                     </button>
                     <div x-show="showModal" x-transition
                         style="display: none"
+                        @keydown.escape.window="showModal = false"
+                        x-init="$watch('showModal', value => value && $nextTick(() => $refs.nameInput.focus()))"
                         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <div class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
                             
@@ -53,6 +56,7 @@
                                 <div>
                                     <label for="name" class="block mb-1 text-sm font-medium">Nama</label>
                                     <input type="text" name="name" id="name" required
+                                        x-ref="nameInput"
                                         class="w-full px-3 py-2 border rounded">
                                 </div>
 
@@ -107,32 +111,28 @@
                     @endforelse
                 </tbody>
             </table>
-            <div x-data="{ showModal: false }">
-                <!-- Modal -->
-                <div x-show="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-                        <button @click="showModal = false"
-                            class="absolute text-xl text-gray-500 top-2 right-2 hover:text-red-500">&times;</button>
-
-                        <h2 class="mb-4 text-lg font-semibold text-gray-700">Tambah Calon PMI Baru</h2>
-
-                        <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-4">
-                            @csrf
-
-                            <div>
-                                <label for="name" class="block text-sm font-medium">Nama Calon PMI</label>
-                                <input type="text" name="name" id="name" required
-                                    class="w-full px-3 py-2 border rounded">
-                            </div>
-
-                            <button type="submit"
-                                class="w-full py-2 font-semibold text-white bg-blue-600 rounded hover:bg-blue-700">
-                                Simpan
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </x-app-layout>
+
+@if(session('success'))
+    <div 
+        x-data="{ show: true }" 
+        x-init="setTimeout(() => show = false, 2000)" 
+        x-show="show"
+        x-transition
+        :class="{
+            'fixed inset-x-0 top-0 z-50 flex px-4 py-3 shadow-md border-b bg-green-100 text-green-800 border-green-300': !('{{ session('success') }}'.toLowerCase().includes('hapus')),
+            'fixed inset-x-0 top-0 z-50 flex px-4 py-3 shadow-md border-b bg-red-100 text-red-800 border-red-300': '{{ session('success') }}'.toLowerCase().includes('hapus')
+        }"
+    >
+        <div class="flex items-center w-full max-w-3xl gap-3">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-sm font-medium">{{ session('success') }}</span>
+        </div>
+    </div>
+@endif

@@ -46,7 +46,7 @@ class UserController extends Controller
         $date = now();
         $count = User::whereDate('created_at', $date->toDateString())->count() + 1;
         $email = "{$name}" . str_pad($count, 2, '0', STR_PAD_LEFT) . $date->format('dmY') . "@pmi.id";
-        $password = "{$name}" . $date->format('dmY');
+        $password = "{$name}" . str_pad($count, 2, '0', STR_PAD_LEFT) . $date->format('dmY') . "@pmi.id";
 
         User::create([
             'name' => $request->name,
