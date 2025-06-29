@@ -34,11 +34,27 @@
                                 class="text-blue-600 hover:underline"
                             >Edit</button>
 
-                            <form action="{{ route('admin.kriteria.destroy', $k->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus kriteria ini?')">
+                            <form x-data @submit.prevent="
+                                const nama = $el.querySelector('button').dataset.nama;
+                                Swal.fire({
+                                    title: `Hapus kriteria '${nama}'?`,
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Ya, hapus!',
+                                    cancelButtonText: 'Batal',
+                                    confirmButtonColor: '#e3342f',
+                                }).then(result => {
+                                    if (result.isConfirmed) $el.submit();
+                                });
+                            " action="{{ route('admin.kriteria.destroy', $k->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline">Hapus</button>
+                                <button type="submit" class="text-red-600 hover:underline" data-nama="{{ $k->nama }}">
+                                    Hapus
+                                </button>
                             </form>
+
+
 
 
                         </td>

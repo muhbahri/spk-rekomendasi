@@ -15,7 +15,7 @@
                     <th class="px-4 py-2 border">Kriteria</th>
                     <th class="px-4 py-2 border">Pertanyaan</th>
                     <th class="px-4 py-2 border">Urutan</th>
-                    <th class="px-4 py-2 border">Aksi</th>
+                    <th class="px-3 py-2 border">Aksi</th>
                 </tr>
             </thead>
             <tbody>

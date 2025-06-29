@@ -4,6 +4,7 @@
 <div class="container">
     <div class="left-side">
         <div>
+            <img src="{{ asset('logo/logo.png') }}" style="max-width: 300px;" alt="Logo">
             <h1>Sistem Rekomendasi Negara</h1>
             <p>PT. Surya Eka Perkasa</p>
         </div>

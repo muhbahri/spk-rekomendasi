@@ -50,23 +50,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Admin Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // CRUD Data
-    Route::resource('negara', NegaraController::class)->except(['show']);
-    Route::put('/admin/negara/{negara}', [NegaraController::class, 'update'])->name('admin.negara.update');
-    Route::post('/admin/negara', [NegaraController::class, 'store'])->name('admin.negara.store');
-
+    // Kriteria
     Route::resource('kriteria', KriteriaController::class)->except(['show']);
-    Route::put('/admin/kriteria/{kriteria}', [KriteriaController::class, 'update'])->name('admin.kriteria.update');
-    // Route::post('/admin/kriteria', [KriteriaController::class, 'store'])->name('admin.kriteria.store');
+
+    // Negara
+    Route::resource('negara', NegaraController::class)->except(['show']);
 
     // Pertanyaan
+    Route::resource('pertanyaan', PertanyaanController::class)->except(['show']);
     Route::get('/pertanyaan/edit-kriteria/{kriteria}', [PertanyaanController::class, 'editByKriteria'])->name('pertanyaan.edit.kriteria');
     Route::put('/pertanyaan/edit-kriteria/{kriteria}', [PertanyaanController::class, 'updateByKriteria'])->name('pertanyaan.update.kriteria');
-    Route::resource('pertanyaan', PertanyaanController::class)->except(['show']);
+
     Route::get('/admin/pertanyaan/urutan', function (Illuminate\Http\Request $request) {
         $last = \App\Models\Pertanyaan::where('kriteria_id', $request->kriteria_id)->max('urutan');
         return response()->json(['urutan' => ($last ? $last + 1 : 1)]);
-    })->middleware(['auth', 'admin']);
+    })->middleware(['auth', 'admin'])->name('admin.pertanyaan.urutan');
+
 
     
 

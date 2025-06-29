@@ -33,8 +33,29 @@
                                 Edit
                             </button>
 
-                            <form action="{{ route('admin.negara.destroy', $negara) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus?')">
-                                @csrf @method('DELETE')
+                            <form x-data
+                                x-on:submit.prevent="
+                                    const namaNegara = $el.dataset.nama;
+                                    Swal.fire({
+                                        title: `Hapus negara ${namaNegara}?`,
+                                        icon: 'error',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Ya, hapus!',
+                                        cancelButtonText: 'Batal',
+                                        confirmButtonColor: '#e3342f',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            $el.submit();
+                                        }
+                                    })
+                                "
+                                data-nama="{{ $negara->nama }}"
+                                action="{{ route('admin.negara.destroy', $negara) }}"
+                                method="POST"
+                                class="inline"
+                            >
+                                @csrf
+                                @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Hapus</button>
                             </form>
                         </td>

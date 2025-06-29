@@ -64,7 +64,6 @@ class KriteriaController extends Controller
 
     public function destroy($id)
     {
-        // \Log::debug("DESTROY DIPANGGIL untuk ID $id");
 
         $kriteria = Kriteria::findOrFail($id);
         $kriteria->delete();
