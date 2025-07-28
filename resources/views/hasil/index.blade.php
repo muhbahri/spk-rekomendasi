@@ -1,20 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">Hasil Rekomendasi Negara</h2>
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">Hasil Rekomendasi Negara</h2>
     </x-slot>
 
-    <div class="py-10 max-w-4xl mx-auto text-center">
-        <h1 class="text-4xl font-bold uppercase mb-2">Rekomendasi Negara</h1>
-        <h2 class="text-6xl font-extrabold uppercase text-blue-700 mb-6">{{ strtoupper($topCountry) }}</h2>
+    <div class="max-w-4xl py-10 mx-auto text-center">
+        <h1 class="mb-2 text-4xl font-bold uppercase">Rekomendasi Negara</h1>
+        <h2 class="mb-6 text-6xl font-extrabold text-blue-700 uppercase">{{ strtoupper($topCountry) }}</h2>
 
-        <div class="bg-white border-2 border-black rounded-lg p-6 shadow-md max-w-xl mx-auto text-left">
-            <h3 class="text-xl font-semibold mb-3">Peringkat Alternatif Negara Lain</h3>
-            <ol class="list-decimal list-inside space-y-4">
+        <div class="max-w-xl p-6 mx-auto text-left bg-white border-2 border-black rounded-lg shadow-md">
+            <h3 class="mb-3 text-xl font-semibold">Peringkat Alternatif Negara Lain</h3>
+            <ol class="space-y-4 list-decimal list-inside">
                 @foreach ($alternatifCountries as $negara => $skor)
-                    <li>
+                    <li value="{{ $loop->index + 2 }}">
                         <strong>{{ $negara }}</strong>
                         <br>
-                        Namun, negara ini memiliki kelebihan di beberapa aspek namun sedikit kalah pada aspek 
+                        Negara ini memiliki kelebihan di beberapa aspek namun sedikit kalah pada aspek 
                         @php
                             // Tentukan aspek terlemah negara ini berdasarkan bobot
                             $kriteriaTerlemah = \App\Models\Kriteria::all()->sortBy(function($kriteria) use ($negara) {
@@ -29,13 +29,13 @@
             </ol>
         </div>
     </div>
-    <div class="py-6 max-w-4xl mx-auto">
-        <div class="bg-white p-6 rounded shadow">
-            <h3 class="text-lg font-bold mb-4">Berikut adalah rekomendasi negara untuk Anda:</h3>
-            <ol class="list-decimal ml-5">
+    <div class="max-w-4xl py-6 mx-auto">
+        <div class="p-6 bg-white rounded shadow">
+            <h3 class="mb-4 text-lg font-bold">Berikut adalah rekomendasi negara untuk Anda:</h3>
+            <ol class="ml-5 list-decimal">
                 @foreach ($scores as $negara => $skor)
                     <li class="mb-2">
-                        <strong>{{ $negara }}</strong> — Skor: {{ number_format($skor, 4) }}
+                        <strong>{{ $negara }}</strong> — Skor: {{ number_format($skor, 3) }}
                     </li>
                 @endforeach
             </ol>
@@ -45,13 +45,13 @@
 
 {{-- <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Hasil Rekomendasi Negara') }}
         </h2>
     </x-slot>
 
     @if (session('info'))
-    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
+    <div class="p-4 mb-4 text-blue-700 bg-blue-100 border-l-4 border-blue-500">
         {{ session('info') }}
     </div>
     @endif --}}

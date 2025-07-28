@@ -37,7 +37,7 @@ class HasilController extends Controller
         $totalWeight = array_sum($userScores);
         if ($totalWeight > 0) {
             foreach ($userScores as $kriteriaId => $w) {
-                $userScores[$kriteriaId] = $w / $totalWeight;
+                $userScores[$kriteriaId] = ($w / $totalWeight);
             }
         }
 
@@ -69,15 +69,15 @@ class HasilController extends Controller
                 $denom = sqrt($sumSquares[$kriteriaId] ?? 1); // hindari 0
 
                 // r_ij: normalisasi matriks
-                $r = $denom > 0 ? $xij / $denom : 0;
+                $r = $denom > 0 ? ($xij / $denom) : 0;
 
                 $isBenefit = optional(Kriteria::find($kriteriaId))->is_benefit;
-                $weight = $userScores[$kriteriaId] ?? 0;
+                $weight = ($userScores[$kriteriaId] ?? 0);
 
                 $Yi += $isBenefit ? ($r * $weight) : -($r * $weight);
             }
 
-            $scores[$negaraName] = round($Yi, 4); // membulatkan hasil akhir
+            $scores[$negaraName] = round($Yi, 3); // membulatkan hasil akhir
         }
 
         arsort($scores);

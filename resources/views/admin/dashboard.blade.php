@@ -36,7 +36,7 @@
                 <div x-data="{ showModal: false }">
                     <button @click="showModal = true"
                         class="inline-block px-4 py-2 mb-4 text-white bg-green-600 rounded hover:bg-green-700">
-                        ➕ Tambah Calon PMI Baru
+                        Tambah Calon PMI Baru
                     </button>
                     <div x-show="showModal" x-transition
                         style="display: none"
