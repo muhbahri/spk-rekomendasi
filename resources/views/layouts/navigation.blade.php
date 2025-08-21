@@ -53,9 +53,14 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                        @auth
+                            @if (Auth::user()->role === 'admin')
+                                <x-dropdown-link :href="route('profile.edit')">
+                                    {{ __('Profile') }}
+                                </x-dropdown-link>
+                            @endif
+                        @endauth
+
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

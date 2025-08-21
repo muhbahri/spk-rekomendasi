@@ -1,19 +1,19 @@
 @section('title', 'Admin - Daftar Pertanyaan')
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-bold text-gray-800">Daftar Pertanyaan Preferensi</h2>
+        <h2 class="text-xl font-bold text-gray-800">Daftar Pernyataan Preferensi</h2>
     </x-slot>
 
     <div class="p-4" x-data="{ showCreate: false, selectedKriteria: '', urutan: 1 }">
         <button @click="showCreate = true" class="inline-block px-4 py-2 mb-4 text-white bg-green-600 rounded hover:bg-green-700">
-                Tambah Pertanyaan
+                Tambah Pernyataan
             </button>
 
         <table class="w-full text-sm bg-white border rounded shadow table-auto">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-2 border">Kriteria</th>
-                    <th class="px-4 py-2 border">Pertanyaan</th>
+                    <th class="px-4 py-2 border">Pernyataan</th>
                     <th class="px-4 py-2 border">Urutan</th>
                     <th class="px-3 py-2 border">Aksi</th>
                 </tr>
@@ -26,10 +26,33 @@
                         <td class="px-4 py-2">{{ $p->urutan }}</td>
                         <td class="px-4 py-2 space-x-2">
                             <a href="{{ route('admin.pertanyaan.edit.kriteria', $p->kriteria_id) }}" class="text-blue-600 hover:underline">Edit</a>
-                            <form action="{{ route('admin.pertanyaan.destroy', $p) }}" method="POST" class="inline" onsubmit="return confirm('Hapus pertanyaan ini?')">
-                                @csrf @method('DELETE')
-                                <button class="text-red-600 hover:underline">Hapus</button>
+                            <form x-data 
+                                x-on:submit.prevent="
+                                    const teks = $el.dataset.teks;
+                                    Swal.fire({
+                                        title: `Hapus pertanyaan ini?`,
+                                        text: teks,
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Ya, hapus!',
+                                        cancelButtonText: 'Batal',
+                                        confirmButtonColor: '#e3342f',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            $el.submit();
+                                        }
+                                    });
+                                "
+                                data-teks="{{ $p->pertanyaan }}"
+                                action="{{ route('admin.pertanyaan.destroy', $p) }}"
+                                method="POST"
+                                class="inline"
+                            >
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline">Hapus</button>
                             </form>
+
                         </td>
                     </tr>
                 @endforeach
@@ -44,13 +67,13 @@
             >
                 <div class="relative w-full max-w-md p-6 bg-white rounded shadow-md">
                     <button @click="showCreate = false" class="absolute text-4xl text-gray-500 top-3 right-4 hover:text-red-600">&times;</button>
-                    <h2 class="mb-4 text-lg font-bold">Tambah Pertanyaan</h2>
+                    <h2 class="mb-4 text-lg font-bold">Tambah Pernyataan</h2>
 
                     <form method="POST" action="{{ route('admin.pertanyaan.store') }}">
                         @csrf
 
                         <div class="mb-4">
-                            <label class="block mb-1 font-semibold">Pertanyaan</label>
+                            <label class="block mb-1 font-semibold">Pernyataan</label>
                             <textarea name="pertanyaan" x-ref="pertanyaan" class="w-full px-3 py-2 border rounded" required></textarea>
                         </div>
 

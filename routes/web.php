@@ -30,9 +30,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
 
     // Profile routes
+    Route::middleware('admin')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
     // Form biodata + preferensi
     Route::get('/biodata', [BiodataController::class, 'show'])->name('biodata.show');
@@ -49,6 +51,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Admin Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
 
     // Kriteria
     Route::resource('kriteria', KriteriaController::class)->except(['show']);

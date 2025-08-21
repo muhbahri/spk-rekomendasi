@@ -85,6 +85,6 @@ class HasilController extends Controller
         $topCountry = array_key_first($scores);
         $alternatifCountries = array_slice($scores, 1, 4, true);
 
-        return view('hasil.index', compact('scores', 'topCountry', 'alternatifCountries'));
+        return view('hasil.index', compact('scores', 'topCountry', 'alternatifCountries', 'userScores'));
     }
 }

@@ -25,25 +25,30 @@ class PertanyaanController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'pertanyaan' => 'required|array|min:1',
-            'pertanyaan.*' => 'required|string',
-            'kriteria_id' => 'required|exists:kriterias,id',
-        ]);
-
-        $lastUrutan = Pertanyaan::where('kriteria_id', $request->kriteria_id)->max('urutan') ?? 0;
-
-        foreach ($request->pertanyaan as $i => $p) {
-            Pertanyaan::create([
-                'pertanyaan' => $p,
-                'kriteria_id' => $request->kriteria_id,
-                'urutan' => $lastUrutan + $i + 1,
-            ]);
-        }
-
-        return redirect()->route('admin.pertanyaan.index')->with('success', 'Pertanyaan berhasil ditambahkan.');
+{
+    if (is_string($request->pertanyaan)) {
+        $request->merge(['pertanyaan' => [$request->pertanyaan]]);
     }
+
+    $request->validate([
+        'pertanyaan' => 'required|array|min:1|max:3',
+        'pertanyaan.*' => 'required|string',
+        'kriteria_id' => 'required|exists:kriterias,id',
+    ]);
+
+    $lastUrutan = Pertanyaan::where('kriteria_id', $request->kriteria_id)->max('urutan') ?? 0;
+
+    foreach ($request->pertanyaan as $i => $p) {
+        Pertanyaan::create([
+            'pertanyaan' => $p,
+            'kriteria_id' => $request->kriteria_id,
+            'urutan' => $lastUrutan + $i + 1,
+        ]);
+    }
+
+    return redirect()->route('admin.pertanyaan.index')->with('success', 'Pertanyaan berhasil ditambahkan.');
+}
+
 
 
     public function edit(Pertanyaan $pertanyaan)

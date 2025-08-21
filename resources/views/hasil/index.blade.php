@@ -7,8 +7,31 @@
         <h1 class="mb-2 text-4xl font-bold uppercase">Rekomendasi Negara</h1>
         <h2 class="mb-6 text-6xl font-extrabold text-blue-700 uppercase">{{ strtoupper($topCountry) }}</h2>
 
-        <div class="max-w-xl p-6 mx-auto text-left bg-white border-2 border-black rounded-lg shadow-md">
+        <div class="relative max-w-xl p-6 mx-auto text-left bg-white border-2 border-black rounded-lg shadow-md">
+            <!-- Info icon pojok kanan atas -->
+            <div class="absolute top-2 right-2" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                <button class="flex items-center justify-center w-6 h-6 text-sm font-bold text-white bg-gray-800 rounded-full cursor-default focus:outline-none"
+                        title="Lihat skor">
+                    i
+                </button>
+
+                <!-- Tooltip popover -->
+                <div x-show="open" x-transition
+                    class="absolute right-0 z-50 w-64 p-3 mt-2 text-sm text-black bg-white border rounded shadow-lg"
+                    style="white-space: normal;">
+                    <strong>Skor Rekomendasi Negara:</strong>
+                    <ul class="mt-2 list-decimal list-inside">
+                        @foreach ($scores as $negara => $skor)
+                            <li>
+                                {{ $negara }}: {{ number_format($skor, 3) }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
             <h3 class="mb-3 text-xl font-semibold">Peringkat Alternatif Negara Lain</h3>
+
             <ol class="space-y-4 list-decimal list-inside">
                 @foreach ($alternatifCountries as $negara => $skor)
                     <li value="{{ $loop->index + 2 }}">
@@ -29,7 +52,7 @@
             </ol>
         </div>
     </div>
-    <div class="max-w-4xl py-6 mx-auto">
+    {{-- <div class="max-w-4xl py-6 mx-auto">
         <div class="p-6 bg-white rounded shadow">
             <h3 class="mb-4 text-lg font-bold">Berikut adalah rekomendasi negara untuk Anda:</h3>
             <ol class="ml-5 list-decimal">
@@ -40,7 +63,7 @@
                 @endforeach
             </ol>
         </div>
-    </div>
+    </div> --}}
 </x-app-layout>
 
 {{-- <x-app-layout>

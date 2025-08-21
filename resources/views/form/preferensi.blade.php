@@ -17,7 +17,7 @@
 
 @foreach($grouped as $kriteria => $list)
     <div class="mb-10">
-        <h3 class="text-lg font-bold text-blue-700 mb-2 border-b pb-1">{{ $kriteria }}</h3>
+        <h3 class="pb-1 mb-2 text-lg font-bold text-blue-700 border-b">{{ $kriteria }}</h3>
 
         {{-- Skala Likert --}}
         <div class="mb-4 text-sm text-gray-600">
@@ -30,7 +30,7 @@
 
         @foreach($list as $pertanyaan)
             <div class="mb-6">
-                <label class="block text-gray-800 font-medium mb-2">{{ $pertanyaan->pertanyaan }}</label>
+                <label class="block mb-2 font-medium text-gray-800">{{ $pertanyaan->pertanyaan }}</label>
                 <div class="flex gap-6">
                     @for($i = 1; $i <= 5; $i++)
                         <label class="inline-flex items-center">
@@ -50,7 +50,7 @@
 
 
             <div class="mt-6 text-right">
-                <button type="submit" class="px-4 py-2 text-black transition bg-blue-600 rounded hover:bg-blue-700">
+                <button type="submit" class="px-4 py-2 text-white transition bg-blue-600 rounded hover:bg-blue-700">
                     Lanjut ke Hasil
                 </button>
             </div>
